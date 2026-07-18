@@ -37,7 +37,7 @@ import streamlit as st
 class DemoConfig:
     seed: int = 7
     n_steps: int = 220
-    n_particles: int = 900
+    n_particles: int = 1500
     map_size_m: float = 10_000.0
     grid_n: int = 140
 
@@ -48,15 +48,15 @@ class DemoConfig:
 
     odo_noise_m: float = 5.0
     odo_bias_m_per_step: float = 0.9
-    process_noise_m: float = 13.0
+    process_noise_m: float = 10.0
 
     mag_noise_nt: float = 2.0
     classical_mag_noise_nt: float = 8.0
     quantum_mag_noise_nt: float = 2.0
     magnetic_bias_drift_nt_per_step: float = 0.015
 
-    gps_residual_threshold_m: float = 170.0
-    spoof_confirm_steps: int = 4
+    gps_residual_threshold_m: float = 100.0
+    spoof_confirm_steps: int = 3
 
 
 # -----------------------------
@@ -569,10 +569,10 @@ with st.sidebar:
         help="This changes simulated magnetometer noise. It does not claim access to a real quantum sensor.",
     )
 
-    n_particles = st.slider("Particle count", 300, 2500, 900, step=100)
+    n_particles = st.slider("Particle count", 300, 2500, 1500, step=100)
     spoof_pct = st.slider("GNSS spoof start [% of mission]", 20, 80, 48, step=2)
-    gps_threshold = st.slider("GNSS residual threshold [m]", 80, 400, 170, step=10)
-    process_noise = st.slider("Process noise [m]", 3, 45, 13, step=1)
+    gps_threshold = st.slider("GNSS residual threshold [m]", 80, 400, 100, step=10)
+    process_noise = st.slider("Process noise [m]", 3, 45, 10, step=1)
 
     st.divider()
     st.markdown("**Mission playback**")

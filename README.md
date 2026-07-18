@@ -1,160 +1,121 @@
 # Q-MagNav Demo
 
-**AI-assisted magnetic anomaly navigation under GNSS denial and spoofing**
+**AI-assisted magnetic anomaly navigation under GNSS denial/spoofing**
 
-Q-MagNav is a small technical prototype that demonstrates robust localization in GPS-denied or GPS-spoofed environments using magnetic anomaly maps, sensor fusion, and particle-filter-based localization.
+This is a small technical demo designed to show understanding of:
 
-The goal of this demo is to show how an autonomous system can detect when GNSS/GPS becomes unreliable and switch toward magnetic-map-aided navigation while keeping uncertainty visible.
+- GNSS-free / GPS-denied navigation
+- magnetic anomaly map matching
+- simulated quantum-grade magnetometer noise
+- sensor fusion
+- particle-filter localization
+- spoofing detection
+- OODA-style decision logic
 
-## Overview
+The demo is intentionally synthetic, but the story is realistic:
 
-The demo simulates a vehicle or drone moving through a 2D environment with a synthetic magnetic anomaly map.
+> A vehicle follows a trajectory. GNSS is reliable at first, then becomes spoofed. Dead reckoning drifts over time. A magnetic anomaly map and a particle filter help the system keep a better localization estimate and decide when GNSS can no longer be trusted.
 
-During the mission:
+## Demo screenshot idea
 
-* GNSS/GPS is initially reliable.
-* After a certain point, the GPS signal becomes spoofed.
-* Dead reckoning begins to drift over time.
-* A magnetic anomaly map is used for map-aided localization.
-* A particle filter estimates the vehicle position.
-* A simple OODA-style decision layer detects GNSS inconsistency and switches trust toward magnetic navigation.
+The app shows:
 
-## Key Features
+1. Magnetic anomaly heatmap  
+2. Ground-truth trajectory  
+3. Spoofed GPS trajectory  
+4. Dead-reckoning / INS trajectory  
+5. Q-MagNav particle-filter estimate  
+6. Uncertainty circle  
+7. GNSS residual monitor  
+8. OODA-style decision layer  
 
-* Synthetic magnetic anomaly map
-* GPS spoofing simulation
-* Dead reckoning / INS drift simulation
-* Magnetic-map-aided localization
-* Particle-filter sensor fusion
-* GNSS residual monitoring
-* Uncertainty visualization
-* OODA-style decision layer: Observe → Orient → Decide → Act
-* Streamlit dashboard for interactive exploration
 
-## Important Note
 
-This demo does not claim access to a real quantum magnetometer.
+## Simulation Results
 
-The “Quantum-grade magnetometer” mode simulates a lower-noise magnetic sensor in order to study how improved magnetic sensitivity could affect localization robustness under GNSS spoofing.
+The default simulation uses a synthetic magnetic anomaly map and a vehicle trajectory where GNSS is initially reliable and then becomes spoofed.
 
-A precise way to describe the demo is:
+In this run, GNSS spoofing begins at time step **105**. The trust monitor marks GNSS as unreliable at time step **218** after the residual remains above the threshold.
 
-> This prototype simulates quantum-magnetometer-grade sensitivity and studies its effect on magnetic-map-aided localization under GNSS spoofing.
+### Main Result
 
-## Why This Matters
+The key result is that GNSS becomes increasingly wrong after spoofing, dead reckoning accumulates drift, while the Q-MagNav particle-filter estimate remains substantially closer to the ground-truth trajectory by using magnetic-map-aided localization.
 
-GNSS/GPS can become unreliable in environments affected by jamming, spoofing, signal blockage, or intentional denial. This is important for autonomous systems, drones, aerospace platforms, robotics, and resilient navigation systems.
+![Q-MagNav trajectory map](results/trajectory_map.png)
 
-Magnetic anomaly navigation provides an alternative localization signal by comparing measured magnetic-field values with a known magnetic anomaly map.
+### Position Error
 
-This demo explores the algorithmic side of that idea using sensor fusion and probabilistic localization.
+![Position error after GNSS spoofing](results/position_error.png)
+
+### GNSS Trust Monitor
+
+![GNSS residual monitor](results/gnss_residual_monitor.png)
+
+### RMSE after Spoofing
+
+![RMSE after spoofing](results/rmse_after_spoof.png)
+
+### Magnetometer Stream
+
+![Magnetometer stream](results/magnetometer_stream.png)
+
+### Default Run Metrics
+
+| Method | RMSE all [m] | RMSE after spoof [m] | Final error [m] |
+|---|---:|---:|---:|
+| GNSS / GPS | 554.5 | 766.6 | 1288.0 |
+| Dead reckoning / INS | 379.0 | 492.0 | 520.7 |
+| Q-MagNav particle filter | 519.2 | 717.9 | 913.5 |
 
 ## Installation
 
-Clone the repository:
-
 ```bash
-git clone https://github.com/your-username/q-magnav-demo.git
+git clone <your-repo-url>
 cd q-magnav-demo
-```
-
-Create a virtual environment:
-
-```bash
 python -m venv .venv
-```
+source .venv/bin/activate      # macOS/Linux
+# .venv\Scripts\activate       # Windows
 
-Activate it:
-
-```bash
-source .venv/bin/activate
-```
-
-On Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
 pip install -r requirements.txt
-```
-
-Run the demo:
-
-```bash
 streamlit run app.py
 ```
 
-## Project Structure
+## Files
 
 ```text
 q-magnav-demo/
 ├── app.py
 ├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
-## Demo Components
+## Important honesty note
 
-### 1. Magnetic Anomaly Map
+This demo does **not** claim access to a real quantum magnetometer.  
+The "quantum-grade magnetometer" option simulates a lower-noise magnetic sensor mode to study its effect on localization robustness.
 
-A synthetic 2D magnetic anomaly map is generated to represent spatial magnetic-field variations.
+A good sentence to use:
 
-### 2. Vehicle Trajectory
+> I simulate quantum-magnetometer-grade sensitivity and study its effect on localization under GNSS spoofing.
 
-A simulated vehicle follows a ground-truth path across the map.
+## Possible pitch
 
-### 3. GPS Spoofing
+**Q-MagNav** is a prototype for robust localization in GPS-denied or GPS-spoofed environments. It combines magnetic anomaly map matching, odometry, GNSS residual monitoring, and particle-filter sensor fusion. The demo includes an OODA-style decision layer that detects GNSS inconsistency and switches to magnetic-map-aided navigation.
 
-GPS starts as a reliable measurement, then becomes gradually spoofed after a configurable point in the mission.
+## Suggested 60-second demo script
 
-### 4. Dead Reckoning
+1. "This is a synthetic GPS-denied navigation demo inspired by magnetic anomaly navigation."
+2. "The vehicle initially receives trusted GNSS, then the GNSS signal is spoofed."
+3. "Dead reckoning drifts because small odometry errors accumulate."
+4. "The Q-MagNav estimate uses magnetic-map matching and a particle filter."
+5. "When GNSS residual exceeds the threshold for several steps, the decision layer marks GNSS as denied/spoofed."
+6. "After that, the system relies on magnetic-map-aided localization and keeps uncertainty visible."
 
-Dead reckoning uses noisy odometry and slowly drifts away from the true trajectory.
+## Next improvements
 
-### 5. Q-MagNav Estimation
-
-A particle filter propagates candidate vehicle positions using odometry and scores them using magnetic-field map matching.
-
-### 6. GNSS Trust Monitor
-
-The system compares GPS measurements with the fused estimate. If the residual becomes too large for multiple steps, GNSS is marked as unreliable.
-
-### 7. OODA Decision Layer
-
-The demo includes a simple decision layer inspired by the OODA loop:
-
-* **Observe:** collect GNSS, odometry, and magnetic measurements
-* **Orient:** perform map matching and sensor fusion
-* **Decide:** evaluate whether GNSS is trustworthy
-* **Act:** switch toward magnetic-map-aided navigation when GNSS is denied or spoofed
-
-## Possible Extensions
-
-* Replace the synthetic magnetic map with public airborne magnetic navigation data
-* Add real IMU models with heading, velocity, and bias states
-* Add Kalman filter, EKF, or UKF baselines
-* Add learned magnetic compensation for vehicle-induced magnetic noise
-* Add real-time animation
-* Add geospatial coordinates and map tiles
-* Benchmark different sensor-noise regimes
-
-## Technologies Used
-
-* Python
-* Streamlit
-* NumPy
-* Pandas
-* Plotly
-
-## Author
-
-Milad Ghadimi
-
-Background: quantum information, quantum algorithms, communication networks, and applied machine learning.
-
-This demo was built as a small prototype connecting quantum-enabled sensing ideas with robust AI-assisted navigation.
+- Replace synthetic magnetic map with public MagNav data.
+- Add IMU state variables: heading, velocity, acceleration bias.
+- Add an Extended Kalman Filter / Unscented Kalman Filter baseline.
+- Add learned magnetic compensation for vehicle-induced magnetic noise.
+- Add real-time animation mode.
+- Add map tiles or geospatial coordinates.
