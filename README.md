@@ -113,9 +113,9 @@ Actually:
 
 ## Next improvements
 
-- Replace synthetic magnetic map with public MagNav data.
-- Add IMU state variables: heading, velocity, acceleration bias.
-- Add an Extended Kalman Filter / Unscented Kalman Filter baseline.
-- Add learned magnetic compensation for vehicle-induced magnetic noise.
-- Add real-time animation mode.
-- Add map tiles or geospatial coordinates.
+- Replacing synthetic magnetic map with public MagNav data.
+- Adding IMU state variables: heading, velocity, acceleration bias.
+- Adding an Extended Kalman Filter / Unscented Kalman Filter baseline.
+- Adding learned magnetic compensation for vehicle-induced magnetic noise.
+- Adding real-time animation mode.
+- Adding map tiles or geospatial coordinates.
