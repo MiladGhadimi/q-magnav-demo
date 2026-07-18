@@ -94,9 +94,9 @@ q-magnav-demo/
 This demo does **not** claim access to a real quantum magnetometer.  
 The "quantum-grade magnetometer" option simulates a lower-noise magnetic sensor mode to study its effect on localization robustness.
 
-A good sentence to use:
+Actually:
 
-> I simulate quantum-magnetometer-grade sensitivity and study its effect on localization under GNSS spoofing.
+> We simulate quantum-magnetometer-grade sensitivity and study its effect on localization under GNSS spoofing.
 
 ## Possible pitch
 
