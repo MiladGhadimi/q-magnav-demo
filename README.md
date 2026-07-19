@@ -102,7 +102,7 @@ Actually:
 
 **Q-MagNav** is a prototype for robust localization in GPS-denied or GPS-spoofed environments. It combines magnetic anomaly map matching, odometry, GNSS residual monitoring, and particle-filter sensor fusion. The demo includes an OODA-style decision layer that detects GNSS inconsistency and switches to magnetic-map-aided navigation.
 
-## Suggested 60-second demo script
+## overview of the demo script
 
 1. "This is a synthetic GPS-denied navigation demo inspired by magnetic anomaly navigation."
 2. "The vehicle initially receives trusted GNSS, then the GNSS signal is spoofed."
